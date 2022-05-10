@@ -6,7 +6,7 @@
 /*   By: zkansoun <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 12:07:54 by zkansoun          #+#    #+#             */
-/*   Updated: 2022/05/10 11:45:38 by zkansoun         ###   ########.fr       */
+/*   Updated: 2022/05/10 13:24:27 by zkansoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,9 +76,74 @@ void	fill_cmd(t_seg **seg, char **path)
 	}
 }
 
+void	fill_input(t_seg **seg)
+{
+	t_seg	*temp;
+	int		i;
+
+	temp = *seg;
+	while (temp)
+	{
+		i = -1;
+		while (temp->tokens[++i])
+		{
+			if (temp->tokens[i][0] == '<')
+			{
+				if (temp->tokens[i][1] == '\0'
+					|| (temp->tokens[i][1] == '<' && temp->tokens[i][2] == '\0'))
+				{
+					temp->input = temp->tokens[i + 1];
+					break ;
+				}
+				else
+				{
+					if(temp->tokens[i][1] != '<')
+						temp->input = temp->tokens[i] + 1;
+					else
+						temp->input = temp->tokens[i] + 2;
+				}
+			}
+	}
+		temp = temp->next;
+	}
+}
+
+void	fill_output(t_seg **seg)
+{
+	t_seg	*temp;
+	int		i;
+
+	temp = *seg;
+	while (temp)
+	{
+		i = -1;
+		while (temp->tokens[++i])
+		{
+			if (temp->tokens[i][0] == '>')
+			{
+				if (temp->tokens[i][1] == '\0'
+					|| (temp->tokens[i][1] == '>' && temp->tokens[i][2] == '\0'))
+				{
+					temp->output = temp->tokens[i + 1];
+					break ;
+				}
+				else
+				{
+					if(temp->tokens[i][1] != '>')
+						temp->output = temp->tokens[i] + 1;
+					else
+						temp->output = temp->tokens[i] + 2;
+				}
+			}
+	}
+		temp = temp->next;
+	}
+}
+
 void	prompt(char **path)
 {
 	t_seg	**seg;
+	t_seg	*temp;
 	char	**segments;
 	char	*line;
 	
@@ -88,9 +153,18 @@ void	prompt(char **path)
 		segments = ft_split(line, '|');
 		seg = take_tokens(segments);
 		fill_cmd(seg, path);
+		fill_input(seg);	
+		fill_output(seg);	
+		temp = *seg;
+		while (temp)
+		{
+			printf("IN: %s, OUT: %s\n", temp->input, temp->output);
+			temp = temp->next;
+		}
 		free (line);
 		line = readline("<$");
 	}
+
 
 
 }
