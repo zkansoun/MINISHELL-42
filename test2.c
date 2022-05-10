@@ -6,7 +6,7 @@
 /*   By: zkansoun <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 12:07:38 by zkansoun          #+#    #+#             */
-/*   Updated: 2022/05/10 12:31:49 by zkansoun         ###   ########.fr       */
+/*   Updated: 2022/05/10 14:09:19 by zkansoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int main(void)
 		char **argj;
 		argj = malloc (3);
 		argj[0] = "/bin/cat";
-		argj[1] = "-e";
+		argj[1] = "-eb";
 		argj[2] = NULL;
 		execve("/bin/cat", argj, NULL);
 

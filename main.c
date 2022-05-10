@@ -6,7 +6,7 @@
 /*   By: zkansoun <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 12:07:54 by zkansoun          #+#    #+#             */
-/*   Updated: 2022/05/10 14:02:50 by zkansoun         ###   ########.fr       */
+/*   Updated: 2022/05/10 14:13:14 by zkansoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,8 +157,7 @@ void	fill_flags(t_seg **seg)
 					temp->flags = temp->tokens[i];
 				else
 				{
-					temp->flags = ft_strjoin(temp->flags, " ");
-					temp->flags = ft_strjoin(temp->flags, temp->tokens[i]);
+					temp->flags = ft_strjoin(temp->flags, temp->tokens[i] + 1);
 				}
 			}
 		}
