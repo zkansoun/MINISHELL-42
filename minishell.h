@@ -6,7 +6,7 @@
 /*   By: zkansoun <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 12:11:50 by zkansoun          #+#    #+#             */
-/*   Updated: 2022/05/10 12:13:42 by zkansoun         ###   ########.fr       */
+/*   Updated: 2022/05/10 13:56:10 by zkansoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ typedef struct s_seg
 	char			*cmd;
 	char			*input;
 	char			*output;
-	char			**flags;
+	char			*flags;
 	char			**args;
 	struct s_seg	*next;
 }	t_seg;

@@ -6,7 +6,7 @@
 /*   By: zkansoun <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 12:07:54 by zkansoun          #+#    #+#             */
-/*   Updated: 2022/05/10 13:24:27 by zkansoun         ###   ########.fr       */
+/*   Updated: 2022/05/10 14:02:50 by zkansoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,6 +140,32 @@ void	fill_output(t_seg **seg)
 	}
 }
 
+void	fill_flags(t_seg **seg)
+{
+	t_seg	*temp;
+	int		i;
+
+	temp = *seg;
+	while (temp)
+	{
+		i = -1;
+		while (temp->tokens[++i])
+		{
+			if (temp->tokens[i][0] == '-')
+			{
+				if (temp->flags == NULL)
+					temp->flags = temp->tokens[i];
+				else
+				{
+					temp->flags = ft_strjoin(temp->flags, " ");
+					temp->flags = ft_strjoin(temp->flags, temp->tokens[i]);
+				}
+			}
+		}
+		temp = temp->next;
+	}
+}
+
 void	prompt(char **path)
 {
 	t_seg	**seg;
@@ -154,11 +180,12 @@ void	prompt(char **path)
 		seg = take_tokens(segments);
 		fill_cmd(seg, path);
 		fill_input(seg);	
-		fill_output(seg);	
+		fill_output(seg);
+		fill_flags(seg);	
 		temp = *seg;
 		while (temp)
 		{
-			printf("IN: %s, OUT: %s\n", temp->input, temp->output);
+			printf("flags: %s", temp->flags);
 			temp = temp->next;
 		}
 		free (line);
