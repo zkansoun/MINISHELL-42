@@ -6,7 +6,7 @@
 /*   By: zkansoun <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 12:07:38 by zkansoun          #+#    #+#             */
-/*   Updated: 2022/05/10 12:18:48 by zkansoun         ###   ########.fr       */
+/*   Updated: 2022/05/10 12:31:49 by zkansoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,21 +23,27 @@ int main(void)
 	id = fork();
 	if (id == 0)
 	{
-		//close (fd[0]);
-		c = "zahraa";
+		char **argh;
+
+		argh = malloc(3);
+		argh[0] = "/bin/echo";
+		argh[1] = "bonjour\n";
+		argh[2] = NULL;
 		dup2(fd[1], 1);
-		printf("%s\n", c);
-		//close (fd[1]);
+		execve("/bin/echo", argh, NULL);
 	}
 	else
 	{
 		char *s;
 
-		//close(fd[1]);
 		s = malloc (7);
-		read (fd[0], s, 7);
-		printf("iii%s", s);
-		//close (fd[0]);
+		dup2(fd[0],0);
+		char **argj;
+		argj = malloc (3);
+		argj[0] = "/bin/cat";
+		argj[1] = "-e";
+		argj[2] = NULL;
+		execve("/bin/cat", argj, NULL);
 
 	}
 }
