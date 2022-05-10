@@ -6,11 +6,11 @@
 /*   By: zkansoun <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 12:07:54 by zkansoun          #+#    #+#             */
-/*   Updated: 2022/05/10 09:51:03 by zkansoun         ###   ########.fr       */
+/*   Updated: 2022/05/10 11:45:38 by zkansoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "minishell.h"
+#include "minishell.h"
 
 void	add_list(t_seg **seg)
 {
@@ -50,63 +50,59 @@ t_seg	**take_tokens(char **segments)
 void	fill_cmd(t_seg **seg, char **path)
 {
 	t_seg	*temp;
-	int		i;
-	int		res;
-	int		j;
+	int		i[3];
 
 	temp = *seg;
 	while (temp)
 	{
-		i = 0;
-		while (temp->tokens[i])
+		i[0] = -1;
+		while (temp->tokens[++i[0]])
 		{
-			j = 0;
-			res = 0;
-			while (path[j])
+			i[1] = -1;
+			i[2] = 0;
+			while (path[++i[1]])
 			{
-				if (access(ft_strjoin(path[j], temp->tokens[i]), F_OK) == 0)
+				if (!access(ft_strjoin(path[i[1]], temp->tokens[i[0]]), F_OK))
 				{
-					temp->cmd = temp->tokens[i];
-					res = 1;
+					temp->cmd = temp->tokens[i[0]];
+					i[2] = 1;
 					break ;
 				}
-				j++;
 			}
-			if (res == 1)
+			if (i[2] == 1)
 				break ;
-			i++;
 		}
 		temp = temp->next;
 	}
 }
 
-int	main(int argc, char **argv, char **envp)
+void	prompt(char **path)
 {
-	char	*line;
-	char	**path;
 	t_seg	**seg;
-	t_seg	*temp;
 	char	**segments;
-	int		i;
-
-	i = -1;
+	char	*line;
+	
 	line = readline("<$");
-	path = ft_split(getenv("PATH"), ':');
-	while (path[++i])
-			path[i] = ft_strjoin(path[i], "/");
 	while (line)
 	{
 		segments = ft_split(line, '|');
-		seg =  take_tokens(segments);
+		seg = take_tokens(segments);
 		fill_cmd(seg, path);
-		i = 0;
-		temp = *seg;
-		while (temp)
-		{
-			printf("%s\n", temp->cmd);
-			temp = temp->next;
-		}
 		free (line);
 		line = readline("<$");
 	}
+
+
 }
+
+int	main(int argc, char **argv, char **envp)
+{
+	char	**path;
+	int		i;
+
+	i = -1;
+	path = ft_split(getenv("PATH"), ':');
+	while (path[++i])
+			path[i] = ft_strjoin(path[i], "/");
+	prompt(path);
+	}

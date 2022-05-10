@@ -6,23 +6,12 @@
 /*   By: zkansoun <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 12:11:50 by zkansoun          #+#    #+#             */
-/*   Updated: 2022/05/09 15:24:51 by zkansoun         ###   ########.fr       */
+/*   Updated: 2022/05/10 12:13:42 by zkansoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
-
-typedef struct s_seg
-{
-	char			**tokens;
-	char			*cmd;
-	char			*input;
-	char			*output;
-	char			**flags;
-	char			**args;
-	struct s_seg	*next;
-}	t_seg;
 
 # include "LIB42/libft.h"
 # include <stdio.h>
@@ -36,6 +25,17 @@ typedef struct s_seg
 # include <curses.h>
 # include <term.h>
 # include <signal.h>
+# include <stdint.h>
+
+typedef struct s_seg
+{
+	char			**tokens;
+	char			*cmd;
+	char			*input;
+	char			*output;
+	char			**flags;
+	char			**args;
+	struct s_seg	*next;
+}	t_seg;
 
 #endif
-
